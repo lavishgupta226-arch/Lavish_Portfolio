@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -9,8 +9,11 @@ import Workflow from "./components/Workflow";
 import Testimonials from "./components/Testimonials";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import Lightbox from "./components/Lightbox";
 
 export default function App() {
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+
   useEffect(() => {
     // Smooth scroll behavior for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -41,7 +44,7 @@ export default function App() {
         </div>
 
         <div id="works">
-          <Portfolio />
+          <Portfolio onProjectClick={(id) => setSelectedVideo(id)} />
         </div>
 
         <div id="about">
@@ -60,6 +63,12 @@ export default function App() {
       </main>
 
       <Footer />
+
+      <Lightbox 
+        isOpen={!!selectedVideo} 
+        onClose={() => setSelectedVideo(null)} 
+        youtubeId={selectedVideo} 
+      />
     </div>
   );
 }
